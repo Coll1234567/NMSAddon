@@ -5,18 +5,18 @@ import com.dfsek.terra.api.platform.block.BlockType;
 
 import net.minecraft.core.IRegistry;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.IBlockData;
 
 public class NMSBlockData implements BlockData {
-	protected net.minecraft.world.level.block.state.BlockBase.BlockData delegate;
-	
+	protected IBlockData delegate;
 
-	public NMSBlockData(net.minecraft.world.level.block.state.BlockBase.BlockData delegate) {
+	public NMSBlockData(IBlockData delegate) {
 		this.delegate = delegate;
 	}
 
 	@Override
 	public BlockType getBlockType() {
-		return new NMSBlockType(delegate.getBlock());
+		return new NMSBlockType(delegate);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class NMSBlockData implements BlockData {
 	@Override
 	public String getAsString() {
 		StringBuilder data = new StringBuilder(IRegistry.W.getKey(delegate.getBlock()).toString());
-		System.out.println("????");
+		//System.out.println("????");
 		if (!delegate.getStateMap().isEmpty()) {
 			data.append('[');
 //			data.append(delegate.getStateMap().entrySet().stream().map(StateAccessor.getPropertyMapPrinter())
@@ -57,7 +57,7 @@ public class NMSBlockData implements BlockData {
 	}
 
 	@Override
-	public net.minecraft.world.level.block.state.BlockBase.BlockData getHandle() {
+	public IBlockData getHandle() {
 		return delegate;
 	}
 }

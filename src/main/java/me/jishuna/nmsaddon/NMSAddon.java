@@ -19,6 +19,7 @@ import com.dfsek.terra.api.event.events.config.ConfigPackPostLoadEvent;
 import com.dfsek.terra.api.event.events.config.ConfigPackPreLoadEvent;
 import com.dfsek.terra.api.injection.annotations.Inject;
 import com.dfsek.terra.api.util.generic.pair.Pair;
+import com.dfsek.terra.bukkit.TerraBukkitPlugin;
 import com.dfsek.terra.config.pack.ConfigPack;
 import com.dfsek.terra.world.TerraWorld;
 
@@ -38,9 +39,7 @@ import net.minecraft.world.level.levelgen.placement.WorldGenDecorator;
 @Version("0.1.0")
 public class NMSAddon extends TerraAddon implements EventListener {
 
-	public static final PopulatorFeature POPULATOR_FEATURE = new PopulatorFeature(WorldGenFeatureEmptyConfiguration.a);
-	public static final WorldGenFeatureConfigured<?, ?> POPULATOR_CONFIGURED_FEATURE = POPULATOR_FEATURE
-			.b(WorldGenFeatureEmptyConfiguration.b).a(WorldGenDecorator.a.a(WorldGenFeatureEmptyConfiguration2.c));
+	
 
 	private final Map<ConfigPack, Pair<PreLoadCompatibilityOptions, PostLoadCompatibilityOptions>> templates = new HashMap<>();
 	private final Map<DimensionManager, Pair<WorldServer, TerraWorld>> worldMap = new HashMap<>();
@@ -55,6 +54,8 @@ public class NMSAddon extends TerraAddon implements EventListener {
 		plugin.getEventManager().registerListener(this, this);
 		plugin.getEventManager().registerListener(this, new WorldEventListener(plugin));
 		nmsaddon = this;
+		
+		//((TerraBukkitPlugin)this.plugin).setHandle(new NMSWorldHandle());
 	}
 
 	public TerraPlugin getPlugin() {

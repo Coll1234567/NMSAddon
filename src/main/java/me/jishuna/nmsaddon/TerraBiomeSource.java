@@ -14,6 +14,7 @@ import net.minecraft.resources.MinecraftKey;
 import net.minecraft.resources.RegistryLookupCodec;
 import net.minecraft.world.level.biome.BiomeBase;
 import net.minecraft.world.level.biome.WorldChunkManager;
+import net.minecraft.world.level.block.BlockStairs;
 
 public class TerraBiomeSource extends WorldChunkManager {
 	public static final Codec<ConfigPack> PACK_CODEC = (RecordCodecBuilder

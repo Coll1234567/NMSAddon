@@ -32,7 +32,7 @@ import net.minecraft.world.level.levelgen.HeightMap.Type;
 import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.WorldGenStage.Features;
 
-public class NMSChunkGenerator extends ChunkGenerator implements GeneratorWrapper {
+public class NMSChunkGenerator extends ChunkGenerator implements GeneratorWrapper, com.dfsek.terra.api.platform.world.generator.ChunkGenerator {
 	public static final Codec<ConfigPack> PACK_CODEC = RecordCodecBuilder
 			.create(config -> config.group(Codec.STRING.fieldOf("pack").forGetter(pack -> pack.getTemplate().getID()))
 					.apply(config, config.stable(NMSAddon.getNMSAddon().getPlugin().getConfigRegistry()::get)));

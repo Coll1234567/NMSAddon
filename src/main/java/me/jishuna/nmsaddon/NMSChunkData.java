@@ -7,6 +7,7 @@ import com.dfsek.terra.api.platform.block.BlockData;
 import com.dfsek.terra.api.platform.world.generator.ChunkData;
 
 import net.minecraft.core.BlockPosition;
+import net.minecraft.world.level.block.state.IBlockData;
 import net.minecraft.world.level.chunk.ProtoChunk;
 
 public class NMSChunkData implements ChunkData {
@@ -18,7 +19,12 @@ public class NMSChunkData implements ChunkData {
 
 	@Override
 	public void setBlock(int x, int y, int z, @NotNull BlockData blockData) {
-		delegate.setType(new BlockPosition(x, y, z), ((CraftBlockData) blockData.getHandle()).getState(), false);
+		Object data = blockData.getHandle();
+		if (data instanceof IBlockData) {
+			delegate.setType(new BlockPosition(x, y, z), (IBlockData) data, false);
+		} else {
+			delegate.setType(new BlockPosition(x, y, z), ((CraftBlockData) data).getState(), false);
+		}
 	}
 
 	@Override

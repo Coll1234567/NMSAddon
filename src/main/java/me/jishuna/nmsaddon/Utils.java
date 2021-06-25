@@ -59,7 +59,7 @@ public class Utils {
 
 		generationSettings.a(vanilla.e().d()); // It needs a surfacebuilder, even though we dont use it.
 
-		generationSettings.a(WorldGenStage.Decoration.i, NMSAddon.POPULATOR_CONFIGURED_FEATURE);
+		//generationSettings.a(WorldGenStage.Decoration.i, NMSAddon.POPULATOR_CONFIGURED_FEATURE);
 
 		if (true || pack.getTemplate().vanillaCaves()) {
 			for (WorldGenStage.Features carver : WorldGenStage.Features.values()) {
