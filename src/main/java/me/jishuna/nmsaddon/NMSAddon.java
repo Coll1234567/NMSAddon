@@ -38,9 +38,6 @@ import net.minecraft.world.level.levelgen.placement.WorldGenDecorator;
 @Author("jishuna")
 @Version("0.1.0")
 public class NMSAddon extends TerraAddon implements EventListener {
-
-	
-
 	private final Map<ConfigPack, Pair<PreLoadCompatibilityOptions, PostLoadCompatibilityOptions>> templates = new HashMap<>();
 	private final Map<DimensionManager, Pair<WorldServer, TerraWorld>> worldMap = new HashMap<>();
 
