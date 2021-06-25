@@ -3,14 +3,17 @@ package me.jishuna.nmsaddon;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.bukkit.TreeType;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.generator.CustomChunkGenerator;
 
 import com.dfsek.terra.api.TerraPlugin;
 import com.dfsek.terra.api.event.EventListener;
 import com.dfsek.terra.api.event.annotations.Global;
+import com.dfsek.terra.api.event.annotations.Priority;
+import com.dfsek.terra.api.event.events.config.ConfigPackPreLoadEvent;
 import com.dfsek.terra.api.event.events.world.TerraWorldLoadEvent;
-import com.dfsek.terra.api.util.generic.pair.Pair;
+import com.dfsek.terra.bukkit.world.BukkitAdapter;
 import com.dfsek.terra.config.dummy.DummyWorld;
 import com.dfsek.terra.config.pack.ConfigPack;
 
@@ -52,8 +55,7 @@ public class WorldEventListener implements EventListener {
 //		final IRegistryWritable<BiomeBase> biomeRegistry = ((CraftServer) Bukkit.getServer()).getServer().l
 //				.b(IRegistry.aO);
 
-		NMSAddon.getNMSAddon().getWorldMap().put(worldServer.getDimensionManager(),
-				Pair.of(worldServer, event.getWorld()));
+		NMSAddon.getNMSAddon().getWorldMap().put(worldServer.getDimensionManager(), event.getWorld());
 
 		NMSChunkGenerator2 generator = new NMSChunkGenerator2(worldServer,
 				(ChunkGenerator) customDelegate.get(chunkGenerator), world.getGenerator(), plugin, event.getPack());
@@ -67,6 +69,15 @@ public class WorldEventListener implements EventListener {
 		pcmGen.setAccessible(true);
 
 		pcmGen.set(worldServer.getChunkProvider().a, generator);
+	}
+
+	@Global
+	@Priority(Priority.HIGHEST)
+	public void injectTrees(ConfigPackPreLoadEvent event) {
+		for (TreeType value : TreeType.values()) {
+			event.getPack().getTreeRegistry().addUnchecked(BukkitAdapter.TREE_TRANSFORMER.translate(value),
+					new NMSTree(plugin, value)); // overwrite trees with evil trees
+		}
 	}
 
 }

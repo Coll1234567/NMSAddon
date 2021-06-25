@@ -47,6 +47,8 @@ public class NMSChunkGenerator2 extends CustomChunkGenerator {
 		this.source = new TerraBiomeSource(((CraftServer) Bukkit.getServer()).getServer().l.b(IRegistry.aO),
 				world.getSeed(), pack);
 	}
+	
+	//TODO back to NMS version?
 
 	@Override
 	public void addDecorations(RegionLimitedWorldAccess regionlimitedworldaccess, StructureManager structuremanager) {
@@ -63,7 +65,7 @@ public class NMSChunkGenerator2 extends CustomChunkGenerator {
 	@Override
 	public void buildBase(RegionLimitedWorldAccess regionlimitedworldaccess, IChunkAccess ichunkaccess) {
 		super.buildBase(regionlimitedworldaccess, ichunkaccess);
-		//createBiomes(((CraftServer) Bukkit.getServer()).getServer().l.b(IRegistry.aO), ichunkaccess);
+		createBiomes(((CraftServer) Bukkit.getServer()).getServer().l.b(IRegistry.aO), ichunkaccess);
 	}
 
 	@Override

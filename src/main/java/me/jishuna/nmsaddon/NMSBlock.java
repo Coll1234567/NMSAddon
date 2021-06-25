@@ -34,42 +34,7 @@ public class NMSBlock implements Block {
 
     @Override
     public BlockState getState() {
-        return new BlockState() {
-            @Override
-            public Block getBlock() {
-                return NMSBlock.this;
-            }
-
-            @Override
-            public int getX() {
-                return NMSBlock.this.getX();
-            }
-
-            @Override
-            public int getY() {
-                return NMSBlock.this.getY();
-            }
-
-            @Override
-            public int getZ() {
-                return NMSBlock.this.getZ();
-            }
-
-            @Override
-            public BlockData getBlockData() {
-                return NMSBlock.this.getBlockData();
-            }
-
-            @Override
-            public boolean update(boolean b) {
-                return false;
-            }
-
-            @Override
-            public Object getHandle() {
-                return NMSBlock.this;
-            }
-        };
+      return new NMSBlockState(delegate, position);
     }
 
     @Override

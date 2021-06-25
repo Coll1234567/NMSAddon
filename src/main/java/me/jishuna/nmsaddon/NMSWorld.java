@@ -76,6 +76,15 @@ public class NMSWorld extends BukkitWorld implements World {
     }
 
     @Override
+    public Entity spawnEntity(Location location, EntityType entityType) {
+    	org.bukkit.entity.EntityType type = ((BukkitEntityType) entityType).getHandle();
+		EntityTypes<?> NMSType = IRegistry.Y.a(ResourceKey.a(IRegistry.l, CraftNamespacedKey.toMinecraft(type.getKey())));
+		net.minecraft.world.entity.Entity entity = NMSType.a(delegate.getMinecraftWorld());
+		entity.setPosition(location.getX(), location.getY(), location.getZ());
+		return new NMSEntity(this, entity);
+    }
+
+    @Override
     public int getMinHeight() {
         return 0;
     }

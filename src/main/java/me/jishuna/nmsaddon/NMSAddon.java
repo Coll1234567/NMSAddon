@@ -39,7 +39,7 @@ import net.minecraft.world.level.levelgen.placement.WorldGenDecorator;
 @Version("0.1.0")
 public class NMSAddon extends TerraAddon implements EventListener {
 	private final Map<ConfigPack, Pair<PreLoadCompatibilityOptions, PostLoadCompatibilityOptions>> templates = new HashMap<>();
-	private final Map<DimensionManager, Pair<WorldServer, TerraWorld>> worldMap = new HashMap<>();
+	private final Map<DimensionManager, TerraWorld> worldMap = new HashMap<>();
 
 	@Inject
 	private TerraPlugin plugin;
@@ -77,7 +77,7 @@ public class NMSAddon extends TerraAddon implements EventListener {
 	}
 
 	public TerraWorld getWorld(DimensionManager type) {
-		TerraWorld world = worldMap.get(type).getRight();
+		TerraWorld world = worldMap.get(type);
 		if (world == null)
 			throw new IllegalArgumentException("No world exists with dimension type " + type);
 		return world;
@@ -112,7 +112,7 @@ public class NMSAddon extends TerraAddon implements EventListener {
 		return templates;
 	}
 
-	public Map<DimensionManager, Pair<WorldServer, TerraWorld>> getWorldMap() {
+	public Map<DimensionManager, TerraWorld> getWorldMap() {
 		return worldMap;
 	}
 
