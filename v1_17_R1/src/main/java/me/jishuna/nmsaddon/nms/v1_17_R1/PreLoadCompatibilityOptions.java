@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms;
+package me.jishuna.nmsaddon.nms.v1_17_R1;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ import com.dfsek.tectonic.config.ConfigTemplate;
 
 import net.minecraft.resources.MinecraftKey;
 
-public class PreLoadCompatibilityOptions_v1_17_R1 implements ConfigTemplate {
+public class PreLoadCompatibilityOptions implements ConfigTemplate {
     @Value("features.inject-registry.enable")
     @Default
     private boolean doRegistryInjection = false;

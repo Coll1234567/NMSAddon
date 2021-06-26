@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms;
+package me.jishuna.nmsaddon.nms.v1_17_R1;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -18,9 +18,9 @@ import com.dfsek.terra.bukkit.world.BukkitAdapter;
 import com.dfsek.terra.config.dummy.DummyWorld;
 import com.dfsek.terra.config.pack.ConfigPack;
 
-import me.jishuna.nmsaddon.nms.generation.NMSChunkGenerator_v1_17_R1;
-import me.jishuna.nmsaddon.nms.generation.TerraBiomeSource_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.NMSTree_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.generation.NMSChunkGenerator;
+import me.jishuna.nmsaddon.nms.v1_17_R1.generation.TerraBiomeSource;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSTree;
 import net.minecraft.core.IRegistry;
 import net.minecraft.core.IRegistryWritable;
 import net.minecraft.server.level.ChunkProviderServer;
@@ -28,10 +28,10 @@ import net.minecraft.server.level.PlayerChunkMap;
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.world.level.biome.BiomeBase;
 
-public class WorldEventListener_v1_17_R1 implements EventListener {
+public class WorldEventListener implements EventListener {
 	private final TerraPlugin plugin;
 
-	public WorldEventListener_v1_17_R1(TerraPlugin plugin) {
+	public WorldEventListener(TerraPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -59,7 +59,7 @@ public class WorldEventListener_v1_17_R1 implements EventListener {
 
 		NMSAdapter_v1_17_R1.getInstance().getWorldMap().put(worldServer.getWorld().getUID(), event.getWorld());
 
-		NMSChunkGenerator_v1_17_R1 generator = new NMSChunkGenerator_v1_17_R1(new TerraBiomeSource_v1_17_R1(biomeRegistry, seed, pack), seed,
+		NMSChunkGenerator generator = new NMSChunkGenerator(new TerraBiomeSource(biomeRegistry, seed, pack), seed,
 				pack);
 
 		generator.setWorldId(worldServer.getWorld().getUID());
@@ -81,7 +81,7 @@ public class WorldEventListener_v1_17_R1 implements EventListener {
 	public void injectTrees(ConfigPackPreLoadEvent event) {
 		for (TreeType value : TreeType.values()) {
 			event.getPack().getTreeRegistry().addUnchecked(BukkitAdapter.TREE_TRANSFORMER.translate(value),
-					new NMSTree_v1_17_R1(plugin, value)); // overwrite trees with evil trees
+					new NMSTree(plugin, value)); // overwrite trees with evil trees
 		}
 	}
 

@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.inventory;
+package me.jishuna.nmsaddon.nms.v1_17_R1.inventory;
 
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 
@@ -8,10 +8,10 @@ import com.dfsek.terra.bukkit.world.inventory.BukkitItemStack;
 
 import net.minecraft.world.level.block.entity.TileEntityContainer;
 
-public class NMSInventory_v1_17_R1 implements Inventory {
+public class NMSInventory implements Inventory {
 	private final TileEntityContainer container;
 
-	public NMSInventory_v1_17_R1(TileEntityContainer container) {
+	public NMSInventory(TileEntityContainer container) {
 		this.container = container;
 	}
 

@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.block.state;
+package me.jishuna.nmsaddon.nms.v1_17_R1.block.state;
 
 import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 
@@ -7,39 +7,34 @@ import com.dfsek.terra.api.platform.block.BlockData;
 import com.dfsek.terra.api.platform.block.state.BlockState;
 import com.dfsek.terra.bukkit.world.BukkitAdapter;
 
-import me.jishuna.nmsaddon.nms.block.NMSBlock_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.block.NMSBlock;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.server.level.RegionLimitedWorldAccess;
 import net.minecraft.world.level.block.entity.TileEntity;
 import net.minecraft.world.level.block.entity.TileEntityContainer;
 import net.minecraft.world.level.block.entity.TileEntityMobSpawner;
+import net.minecraft.world.level.block.entity.TileEntitySign;
 
-public class NMSBlockState_v1_17_R1 implements BlockState {
+public class NMSBlockState implements BlockState {
 	private final RegionLimitedWorldAccess delegate;
 	private final BlockPosition position;
 
-	public NMSBlockState_v1_17_R1(RegionLimitedWorldAccess delegate2, BlockPosition position) {
+	public NMSBlockState(RegionLimitedWorldAccess delegate2, BlockPosition position) {
 		this.delegate = delegate2;
 		this.position = position;
 	}
 
-	public static NMSBlockState_v1_17_R1 newInstance(RegionLimitedWorldAccess delegate2, BlockPosition position) {
-		TileEntity te = delegate2.getTileEntity(position);
+	public static NMSBlockState newInstance(RegionLimitedWorldAccess world, BlockPosition position) {
+		TileEntity te = world.getTileEntity(position);
 
 		if (te instanceof TileEntityContainer)
-			return new NMSContainer_v1_17_R1(delegate2, position);
+			return new NMSContainer(world, position);
 		if (te instanceof TileEntityMobSpawner)
-			return new NMSMobSpawner_v1_17_R1(delegate2, position);
+			return new NMSMobSpawner(world, position);
+		if (te instanceof TileEntitySign)
+			return new NMSSign(world, position);
 
-		return new NMSBlockState_v1_17_R1(delegate2, position);
-	}
-
-	public RegionLimitedWorldAccess getDelegate() {
-		return delegate;
-	}
-
-	public BlockPosition getPosition() {
-		return position;
+		return new NMSBlockState(world, position);
 	}
 
 	@Override
@@ -49,7 +44,7 @@ public class NMSBlockState_v1_17_R1 implements BlockState {
 
 	@Override
 	public Block getBlock() {
-		return new NMSBlock_v1_17_R1(delegate, position);
+		return new NMSBlock(delegate, position);
 	}
 
 	@Override

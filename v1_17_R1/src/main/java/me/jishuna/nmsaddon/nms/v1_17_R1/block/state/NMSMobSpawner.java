@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.block.state;
+package me.jishuna.nmsaddon.nms.v1_17_R1.block.state;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v1_17_R1.util.CraftNamespacedKey;
@@ -16,19 +16,19 @@ import net.minecraft.server.level.RegionLimitedWorldAccess;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.entity.TileEntityMobSpawner;
 
-public class NMSMobSpawner_v1_17_R1 extends NMSBlockState_v1_17_R1 implements MobSpawner {
+public class NMSMobSpawner extends NMSBlockState implements MobSpawner {
 
 	private TileEntityMobSpawner spawner;
 
-	protected NMSMobSpawner_v1_17_R1(RegionLimitedWorldAccess delegate2, BlockPosition position) {
-		super(delegate2, position);
-		this.spawner = (TileEntityMobSpawner) delegate2.getTileEntity(position);
+	protected NMSMobSpawner(RegionLimitedWorldAccess world, BlockPosition position) {
+		super(world, position);
+		this.spawner = (TileEntityMobSpawner) world.getTileEntity(position);
 	}
 
 	@Override
 	public EntityType getSpawnedType() {
 		NamespacedKey key = CraftNamespacedKey
-				.fromMinecraft(spawner.getSpawner().getMobName(spawner.getWorld(), getPosition()));
+				.fromMinecraft(spawner.getSpawner().getMobName(spawner.getWorld(), spawner.getPosition()));
 		return new BukkitEntityType(org.bukkit.entity.EntityType.valueOf(key.getKey().toUpperCase()));
 	}
 

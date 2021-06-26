@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.world;
+package me.jishuna.nmsaddon.nms.v1_17_R1.world;
 
 import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 import org.jetbrains.annotations.NotNull;
@@ -10,10 +10,10 @@ import com.dfsek.terra.bukkit.world.BukkitAdapter;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.world.level.chunk.ProtoChunk;
 
-public class NMSChunkData_v1_17_R1 implements ChunkData {
+public class NMSChunkData implements ChunkData {
 	private final ProtoChunk delegate;
 
-	public NMSChunkData_v1_17_R1(ProtoChunk delegate) {
+	public NMSChunkData(ProtoChunk delegate) {
 		this.delegate = delegate;
 	}
 

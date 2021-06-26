@@ -1,6 +1,8 @@
-package me.jishuna.nmsaddon.nms.world;
+package me.jishuna.nmsaddon.nms.v1_17_R1.world;
 
 import java.util.UUID;
+
+import org.bukkit.craftbukkit.v1_17_R1.util.CraftNamespacedKey;
 
 import com.dfsek.terra.api.math.vector.Location;
 import com.dfsek.terra.api.platform.block.Block;
@@ -10,15 +12,22 @@ import com.dfsek.terra.api.platform.world.World;
 import com.dfsek.terra.api.platform.world.generator.ChunkGenerator;
 import com.dfsek.terra.bukkit.generator.BukkitChunkGenerator;
 import com.dfsek.terra.bukkit.world.BukkitWorld;
+import com.dfsek.terra.bukkit.world.entity.BukkitEntityType;
 
-import net.minecraft.server.level.WorldServer;
+import me.jishuna.nmsaddon.nms.v1_17_R1.block.NMSBlock;
+import me.jishuna.nmsaddon.nms.v1_17_R1.entity.NMSEntity;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.core.IRegistry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.RegionLimitedWorldAccess;
+import net.minecraft.world.entity.EntityTypes;
 
 @SuppressWarnings("resource")
-public class DummyWorld_v1_17_R1 extends BukkitWorld implements World {
-	private final WorldServer delegate;
+public class NMSWorld extends BukkitWorld implements World {
+	private final RegionLimitedWorldAccess delegate;
 
-	public DummyWorld_v1_17_R1(WorldServer delegate) {
-		super(delegate.getWorld());
+	public NMSWorld(RegionLimitedWorldAccess delegate) {
+		super(delegate.getMinecraftWorld().getWorld());
 		this.delegate = delegate;
 	}
 
@@ -49,12 +58,17 @@ public class DummyWorld_v1_17_R1 extends BukkitWorld implements World {
 
 	@Override
 	public Block getBlockAt(int i, int i1, int i2) {
-		throw new UnsupportedOperationException("getBlockAt called on dummy world");
+		return new NMSBlock(delegate, new BlockPosition(i, i1, i2));
 	}
 
 	@Override
 	public Entity spawnEntity(Location location, EntityType entityType) {
-		throw new UnsupportedOperationException("spawnEntity called on dummy world");
+		org.bukkit.entity.EntityType type = ((BukkitEntityType) entityType).getHandle();
+		EntityTypes<?> NMSType = IRegistry.Y
+				.a(ResourceKey.a(IRegistry.l, CraftNamespacedKey.toMinecraft(type.getKey())));
+		net.minecraft.world.entity.Entity entity = NMSType.a(delegate.getMinecraftWorld());
+		entity.setPosition(location.getX(), location.getY(), location.getZ());
+		return new NMSEntity(this, entity);
 	}
 
 	@Override
@@ -67,7 +81,7 @@ public class DummyWorld_v1_17_R1 extends BukkitWorld implements World {
 		return delegate.getMinecraftWorld().getWorld();
 	}
 
-	public WorldServer getDelegate() {
+	public RegionLimitedWorldAccess getDelegate() {
 		return delegate;
 	}
 }

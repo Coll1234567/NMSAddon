@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms;
+package me.jishuna.nmsaddon.nms.v1_17_R1;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
@@ -18,17 +18,17 @@ import net.minecraft.core.IRegistryWritable;
 import net.minecraft.resources.MinecraftKey;
 import net.minecraft.world.level.biome.BiomeBase;
 
-public class ConfigEventListener_v1_17_R1 implements EventListener {
+public class ConfigEventListener implements EventListener {
 	private final TerraPlugin plugin;
 
-	public ConfigEventListener_v1_17_R1(TerraPlugin plugin) {
+	public ConfigEventListener(TerraPlugin plugin) {
 		this.plugin = plugin;
 	}
 
 	@Priority(Priority.LOWEST)
 	@Global
 	public void onPreLoad(ConfigPackPreLoadEvent event) {
-		PreLoadCompatibilityOptions_v1_17_R1 template = new PreLoadCompatibilityOptions_v1_17_R1();
+		PreLoadCompatibilityOptions template = new PreLoadCompatibilityOptions();
 		try {
 			event.loadTemplate(template);
 		} catch (ConfigException e) {
@@ -42,7 +42,7 @@ public class ConfigEventListener_v1_17_R1 implements EventListener {
 	@Priority(Priority.HIGHEST)
 	@Global
 	public void onPostLoad(ConfigPackPostLoadEvent event) {
-		PostLoadCompatibilityOptions_v1_17_R1 template = new PostLoadCompatibilityOptions_v1_17_R1();
+		PostLoadCompatibilityOptions template = new PostLoadCompatibilityOptions();
 
 		try {
 			event.loadTemplate(template);
@@ -56,8 +56,8 @@ public class ConfigEventListener_v1_17_R1 implements EventListener {
 		// logger.info("Registering biomes...");
 		IRegistryWritable<BiomeBase> biomeRegistry = ((CraftServer) Bukkit.getServer()).getServer().l.b(IRegistry.aO);
 		for (ConfigPack pack : plugin.getConfigRegistry().entries()) {
-			pack.getBiomeRegistry().forEach((id, biome) -> NMSUtils_v1_17_R1.registerOrOverwrite(biomeRegistry, IRegistry.aO,
-					new MinecraftKey("terra", NMSUtils_v1_17_R1.createBiomeID(pack, id)), NMSUtils_v1_17_R1.createBiome(biome, pack)));
+			pack.getBiomeRegistry().forEach((id, biome) -> NMSUtils.registerOrOverwrite(biomeRegistry, IRegistry.aO,
+					new MinecraftKey("terra", NMSUtils.createBiomeID(pack, id)), NMSUtils.createBiome(biome, pack)));
 		}
 		// logger.info("Biomes registered.");
 

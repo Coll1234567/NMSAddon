@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms;
+package me.jishuna.nmsaddon.nms.v1_17_R1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import com.dfsek.terra.config.pack.ConfigPack;
 import com.dfsek.terra.config.templates.BiomeTemplate;
 import com.mojang.serialization.Lifecycle;
 
-import me.jishuna.nmsaddon.nms.generation.ProtoBiome_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.generation.ProtoBiome;
 import net.minecraft.core.IRegistry;
 import net.minecraft.core.IRegistryWritable;
 import net.minecraft.data.RegistryGeneration;
@@ -31,17 +31,17 @@ import net.minecraft.world.level.levelgen.carver.WorldGenCarverWrapper;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.feature.WorldGenFeatureConfigured;
 
-public class NMSUtils_v1_17_R1 {
+public class NMSUtils {
 
-	private static final Transformer<String, ProtoBiome_v1_17_R1> biomeFixer = new Transformer.Builder<String, ProtoBiome_v1_17_R1>()
-			.addTransform(NMSUtils_v1_17_R1::parseBiome, Validator.notNull())
+	private static final Transformer<String, ProtoBiome> biomeFixer = new Transformer.Builder<String, ProtoBiome>()
+			.addTransform(NMSUtils::parseBiome, Validator.notNull())
 			.addTransform(id -> parseBiome("minecraft:" + id.toLowerCase()), Validator.notNull()).build();
 
-	private static ProtoBiome_v1_17_R1 parseBiome(String id) {
+	private static ProtoBiome parseBiome(String id) {
 		MinecraftKey identifier = MinecraftKey.a(id);
 		if (RegistryGeneration.i.get(identifier) == null)
 			return null; // failure.
-		return new ProtoBiome_v1_17_R1(identifier);
+		return new ProtoBiome(identifier);
 	}
 
 	public static String createBiomeID(ConfigPack pack, String biomeID) {
@@ -68,10 +68,10 @@ public class NMSUtils_v1_17_R1 {
 
 		generationSettings.a(WorldGenStage.Decoration.i, NMSAdapter_v1_17_R1.POPULATOR_CONFIGURED_FEATURE);
 
-		Pair<PreLoadCompatibilityOptions_v1_17_R1, PostLoadCompatibilityOptions_v1_17_R1> pair = NMSAdapter_v1_17_R1.getInstance().getTemplates()
+		Pair<PreLoadCompatibilityOptions, PostLoadCompatibilityOptions> pair = NMSAdapter_v1_17_R1.getInstance().getTemplates()
 				.get(pack);
-		PreLoadCompatibilityOptions_v1_17_R1 compatibilityOptions =  pair.getLeft();
-		PostLoadCompatibilityOptions_v1_17_R1 postLoadCompatibilityOptions =pair.getRight();
+		PreLoadCompatibilityOptions compatibilityOptions =  pair.getLeft();
+		PostLoadCompatibilityOptions postLoadCompatibilityOptions =pair.getRight();
 
 		if (pack.getTemplate().vanillaCaves()) {
 			for (WorldGenStage.Features carver : WorldGenStage.Features.values()) {

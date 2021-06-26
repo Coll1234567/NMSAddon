@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.world;
+package me.jishuna.nmsaddon.nms.v1_17_R1.world;
 
 import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 import org.jetbrains.annotations.NotNull;
@@ -8,14 +8,14 @@ import com.dfsek.terra.api.platform.block.BlockData;
 import com.dfsek.terra.api.platform.world.Chunk;
 import com.dfsek.terra.api.platform.world.World;
 
-import me.jishuna.nmsaddon.nms.block.NMSBlock_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.block.NMSBlock;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.server.level.RegionLimitedWorldAccess;
 
-public class NMSChunk_v1_17_R1 implements Chunk {
+public class NMSChunk implements Chunk {
     private final RegionLimitedWorldAccess delegate;
 
-    public NMSChunk_v1_17_R1(RegionLimitedWorldAccess delegate) {
+    public NMSChunk(RegionLimitedWorldAccess delegate) {
         this.delegate = delegate;
     }
 
@@ -36,12 +36,12 @@ public class NMSChunk_v1_17_R1 implements Chunk {
 
     @Override
     public World getWorld() {
-        return new NMSWorld_v1_17_R1(delegate);
+        return new NMSWorld(delegate);
     }
 
     @Override
     public Block getBlock(int i, int i1, int i2) {
-        return new NMSBlock_v1_17_R1(delegate, new BlockPosition((getX() << 4) + i, i1, (getZ() << 4)+ i2));
+        return new NMSBlock(delegate, new BlockPosition((getX() << 4) + i, i1, (getZ() << 4)+ i2));
     }
 
     @Override

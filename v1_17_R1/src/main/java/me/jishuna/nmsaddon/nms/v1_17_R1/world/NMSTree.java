@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.world;
+package me.jishuna.nmsaddon.nms.v1_17_R1.world;
 
 import java.util.Random;
 
@@ -15,11 +15,11 @@ import net.minecraft.server.level.RegionLimitedWorldAccess;
 import net.minecraft.world.level.block.BlockChorusFlower;
 import net.minecraft.world.level.levelgen.feature.WorldGenFeatureConfigured;
 
-public class NMSTree_v1_17_R1 implements Tree {
+public class NMSTree implements Tree {
     private final TerraPlugin main;
     private final TreeType type;
 
-    public NMSTree_v1_17_R1(TerraPlugin main, TreeType type) {
+    public NMSTree(TerraPlugin main, TreeType type) {
         this.main = main;
         this.type = type;
     }
@@ -28,7 +28,7 @@ public class NMSTree_v1_17_R1 implements Tree {
     public boolean plant(Location loc, Random random) {
         BlockPosition pos = new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 
-        RegionLimitedWorldAccess world = ((NMSWorld_v1_17_R1) loc.getWorld()).getDelegate();
+        RegionLimitedWorldAccess world = ((NMSWorld) loc.getWorld()).getDelegate();
 
         WorldGenFeatureConfigured<?, ?> gen;
         switch (type) {

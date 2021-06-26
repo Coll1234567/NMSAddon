@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.entity;
+package me.jishuna.nmsaddon.nms.v1_17_R1.entity;
 
 import java.util.UUID;
 
@@ -7,17 +7,17 @@ import com.dfsek.terra.api.math.vector.Vector3;
 import com.dfsek.terra.api.platform.entity.Entity;
 import com.dfsek.terra.api.platform.world.World;
 
-import me.jishuna.nmsaddon.nms.world.NMSWorld_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSWorld;
 import net.minecraft.network.chat.ChatComponentText;
 
-public class NMSEntity_v1_17_R1 implements Entity {
-	public NMSEntity_v1_17_R1(NMSWorld_v1_17_R1 delegate2, net.minecraft.world.entity.Entity delegate) {
+public class NMSEntity implements Entity {
+	public NMSEntity(NMSWorld world, net.minecraft.world.entity.Entity delegate) {
 		this.delegate = delegate;
-		this.delegate2 = delegate2;
+		this.world = world;
 	}
 
 	private final net.minecraft.world.entity.Entity delegate;
-	private final NMSWorld_v1_17_R1 delegate2;
+	private final NMSWorld world;
 
 	@Override
 	public Object getHandle() {
@@ -38,7 +38,7 @@ public class NMSEntity_v1_17_R1 implements Entity {
 
 	@Override
 	public World getWorld() {
-		return delegate2;
+		return world;
 	}
 
 	@Override

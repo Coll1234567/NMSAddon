@@ -35,7 +35,7 @@ public class NMSAddon extends TerraAddon implements EventListener {
 		String version = getServerVersion();
 
 		try {
-			adapter = (NMSAdapter) Class.forName("me.jishuna.nmsaddon.nms.NMSAdapter_" + version)
+			adapter = (NMSAdapter) Class.forName("me.jishuna.nmsaddon.nms." + version + ".NMSAdapter_" + version)
 					.getDeclaredConstructor().newInstance();
 			plugin.logger().info("Version detected: " + version);
 		} catch (ReflectiveOperationException e) {
@@ -50,7 +50,7 @@ public class NMSAddon extends TerraAddon implements EventListener {
 	public static NMSAddon getInstance() {
 		return instance;
 	}
-	
+
 	public TerraPlugin getPlugin() {
 		return plugin;
 	}

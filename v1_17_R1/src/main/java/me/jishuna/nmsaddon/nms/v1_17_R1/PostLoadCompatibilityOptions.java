@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms;
+package me.jishuna.nmsaddon.nms.v1_17_R1;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import com.dfsek.terra.config.builder.BiomeBuilder;
 
 import net.minecraft.resources.MinecraftKey;
 
-public class PostLoadCompatibilityOptions_v1_17_R1 implements ConfigTemplate {
+public class PostLoadCompatibilityOptions implements ConfigTemplate {
     @Value("structures.inject-biome.exclude-biomes")
     @Default
     private Map<BiomeBuilder, Set<MinecraftKey>> excludedPerBiomeStructures = new HashMap<>();

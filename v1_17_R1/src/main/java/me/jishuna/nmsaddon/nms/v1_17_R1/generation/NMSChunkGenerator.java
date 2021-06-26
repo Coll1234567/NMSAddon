@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.generation;
+package me.jishuna.nmsaddon.nms.v1_17_R1.generation;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -25,11 +25,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import me.jishuna.nmsaddon.NMSAddon;
-import me.jishuna.nmsaddon.nms.NMSAdapter_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.DummyWorld_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.NMSChunkData_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.NMSChunk_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.NMSWorld_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.NMSAdapter_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.DummyWorld;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSChunkData;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSChunk;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSWorld;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.IRegistry;
 import net.minecraft.core.IRegistryCustom;
@@ -57,7 +57,7 @@ import net.minecraft.world.level.levelgen.WorldGenStage.Features;
 import net.minecraft.world.level.levelgen.feature.StructureGenerator;
 import net.minecraft.world.level.levelgen.structure.templatesystem.DefinedStructureManager;
 
-public class NMSChunkGenerator_v1_17_R1 extends ChunkGenerator
+public class NMSChunkGenerator extends ChunkGenerator
 		implements GeneratorWrapper, com.dfsek.terra.api.platform.world.generator.ChunkGenerator {
 	private static Field generatorAccessField;
 
@@ -74,21 +74,21 @@ public class NMSChunkGenerator_v1_17_R1 extends ChunkGenerator
 			.create(config -> config.group(Codec.STRING.fieldOf("pack").forGetter(pack -> pack.getTemplate().getID()))
 					.apply(config, config.stable(NMSAddon.getInstance().getPlugin().getConfigRegistry()::get)));
 
-	public static final Codec<NMSChunkGenerator_v1_17_R1> CODEC = RecordCodecBuilder.create(instance -> instance
-			.group(TerraBiomeSource_v1_17_R1.CODEC.fieldOf("biome_source")
+	public static final Codec<NMSChunkGenerator> CODEC = RecordCodecBuilder.create(instance -> instance
+			.group(TerraBiomeSource.CODEC.fieldOf("biome_source")
 					.forGetter(generator -> generator.biomeSource),
 					Codec.LONG.fieldOf("seed").stable().forGetter(generator -> generator.seed),
 					PACK_CODEC.fieldOf("pack").stable().forGetter(generator -> generator.configPack))
-			.apply(instance, instance.stable(NMSChunkGenerator_v1_17_R1::new)));
+			.apply(instance, instance.stable(NMSChunkGenerator::new)));
 
 	private final long seed;
 	private final DefaultChunkGenerator3D delegate;
-	private final TerraBiomeSource_v1_17_R1 biomeSource;
+	private final TerraBiomeSource biomeSource;
 
 	private final ConfigPack configPack;
 	private UUID worldId;
 
-	public NMSChunkGenerator_v1_17_R1(TerraBiomeSource_v1_17_R1 biomeSource, long seed, ConfigPack configPack) {
+	public NMSChunkGenerator(TerraBiomeSource biomeSource, long seed, ConfigPack configPack) {
 		super(biomeSource, new StructureSettings(false));
 		this.configPack = configPack;
 
@@ -122,16 +122,16 @@ public class NMSChunkGenerator_v1_17_R1 extends ChunkGenerator
 			GeneratorAccess access;
 			try {
 				access = (GeneratorAccess) generatorAccessField.get(accessor);
-				world = new NMSWorld_v1_17_R1((RegionLimitedWorldAccess) access);
+				world = new NMSWorld((RegionLimitedWorldAccess) access);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 				return null;
 			}
 			delegate.generateChunkData(world, new FastRandom(), chunk.getPos().b, chunk.getPos().c,
-					new NMSChunkData_v1_17_R1((ProtoChunk) chunk));
+					new NMSChunkData((ProtoChunk) chunk));
 			delegate.getPopulators().forEach(populator -> {
 				if (populator instanceof Chunkified) {
-					populator.populate(world, new NMSChunk_v1_17_R1((RegionLimitedWorldAccess) access));
+					populator.populate(world, new NMSChunk((RegionLimitedWorldAccess) access));
 				}
 			});
 			return chunk;
@@ -192,7 +192,7 @@ public class NMSChunkGenerator_v1_17_R1 extends ChunkGenerator
 			if (located != null) {
 				CompletableFuture<BlockPosition> result = new CompletableFuture<>();
 				AsyncStructureFinder finder = new AsyncStructureFinder(terraWorld.getBiomeProvider(), located,
-						adapt(blockposition).toLocation(new DummyWorld_v1_17_R1(worldserver)), 0, 500, location -> {
+						adapt(blockposition).toLocation(new DummyWorld(worldserver)), 0, 500, location -> {
 							result.complete(adapt(location));
 						}, NMSAddon.getInstance().getPlugin());
 				finder.run(); // Do this synchronously.
@@ -253,7 +253,7 @@ public class NMSChunkGenerator_v1_17_R1 extends ChunkGenerator
 
 	@Override
 	public ChunkGenerator withSeed(long p0) {
-		return new NMSChunkGenerator_v1_17_R1((TerraBiomeSource_v1_17_R1) this.biomeSource.a(seed), seed, configPack);
+		return new NMSChunkGenerator((TerraBiomeSource) this.biomeSource.a(seed), seed, configPack);
 	}
 
 	public void setWorldId(UUID id) {

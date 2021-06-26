@@ -1,10 +1,10 @@
-package me.jishuna.nmsaddon.nms.generation;
+package me.jishuna.nmsaddon.nms.v1_17_R1.generation;
 
 import com.dfsek.terra.api.world.generation.Chunkified;
 import com.mojang.serialization.Codec;
 
-import me.jishuna.nmsaddon.nms.world.NMSChunk_v1_17_R1;
-import me.jishuna.nmsaddon.nms.world.NMSWorld_v1_17_R1;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSChunk;
+import me.jishuna.nmsaddon.nms.v1_17_R1.world.NMSWorld;
 import net.minecraft.server.level.RegionLimitedWorldAccess;
 import net.minecraft.world.level.GeneratorAccessSeed;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -15,22 +15,22 @@ import net.minecraft.world.level.levelgen.feature.configurations.WorldGenFeature
 /**
  * Feature wrapper for Terra populator
  */
-public class PopulatorFeature_v1_17_R1 extends WorldGenerator<WorldGenFeatureEmptyConfiguration> {
-	public PopulatorFeature_v1_17_R1(Codec<WorldGenFeatureEmptyConfiguration> codec) {
+public class PopulatorFeature extends WorldGenerator<WorldGenFeatureEmptyConfiguration> {
+	public PopulatorFeature(Codec<WorldGenFeatureEmptyConfiguration> codec) {
 		super(codec);
 	}
 
 	@Override
 	public boolean generate(FeaturePlaceContext<WorldGenFeatureEmptyConfiguration> context) {
 		ChunkGenerator chunkGenerator = context.b();
-		if (!(chunkGenerator instanceof NMSChunkGenerator_v1_17_R1))
+		if (!(chunkGenerator instanceof NMSChunkGenerator))
 			return true;
 		GeneratorAccessSeed world = context.a();
-		NMSChunkGenerator_v1_17_R1 gen = (NMSChunkGenerator_v1_17_R1) chunkGenerator;
+		NMSChunkGenerator gen = (NMSChunkGenerator) chunkGenerator;
 		gen.getHandle().getPopulators().forEach(populator -> {
 			if (!(populator instanceof Chunkified)) {
-				populator.populate(new NMSWorld_v1_17_R1((RegionLimitedWorldAccess) world),
-						new NMSChunk_v1_17_R1((RegionLimitedWorldAccess) world));
+				populator.populate(new NMSWorld((RegionLimitedWorldAccess) world),
+						new NMSChunk((RegionLimitedWorldAccess) world));
 			}
 		});
 		return true;

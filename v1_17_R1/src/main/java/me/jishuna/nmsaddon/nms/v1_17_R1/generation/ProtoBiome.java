@@ -1,4 +1,4 @@
-package me.jishuna.nmsaddon.nms.generation;
+package me.jishuna.nmsaddon.nms.v1_17_R1.generation;
 
 import com.dfsek.terra.api.platform.world.Biome;
 
@@ -6,10 +6,10 @@ import net.minecraft.core.IRegistryWritable;
 import net.minecraft.resources.MinecraftKey;
 import net.minecraft.world.level.biome.BiomeBase;
 
-public class ProtoBiome_v1_17_R1 implements Biome {
+public class ProtoBiome implements Biome {
     private final MinecraftKey identifier;
 
-    public ProtoBiome_v1_17_R1(MinecraftKey identifier) {
+    public ProtoBiome(MinecraftKey identifier) {
         this.identifier = identifier;
     }
 
