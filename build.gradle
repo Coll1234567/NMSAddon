@@ -10,18 +10,46 @@ version '1.0.0'
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
 
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    repositories {
+		mavenLocal()
+		mavenCentral()
+    }
+    
+     shadowJar {
+        archiveFileName = "${project.name}.jar"
+        destinationDirectory = file("../temp/")
+    }
+     build {
+        dependsOn shadowJar
+    }
+}
+
 repositories {
 	mavenLocal()
 	mavenCentral()
 }
 
 dependencies {
-    compileOnly group: 'org.spigotmc', name: 'spigot', version: '1.17-R0.1-SNAPSHOT'
+  	implementation fileTree("temp")
+	
+    compileOnly group: 'org.spigotmc', name: 'spigot-api', version: '1.17-R0.1-SNAPSHOT'
     compileOnly fileTree('libs') { include '*' }
 }
 
+jar {
+    from {
+        for (File file : new File("temp").listFiles()) {
+            zipTree(file)
+        }
+    }
+}
+
 shadowJar {
-  	minimize()
+	dependsOn(jar)
   	
   	delete fileTree('./target/') {
         exclude archiveName
@@ -31,8 +59,13 @@ shadowJar {
     destinationDirectory = file("./target/")                                   
 }
 
+clean {
+    delete file('./temp/')
+}
+
 build {
     dependsOn shadowJar
+    dependsOn clean
 }
 
 processResources {
@@ -43,3 +76,4 @@ processResources {
 }
 
 shadowJar.shouldRunAfter build
+build.shouldRunAfter subprojects.build
