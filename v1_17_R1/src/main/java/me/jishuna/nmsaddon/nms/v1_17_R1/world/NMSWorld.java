@@ -68,6 +68,7 @@ public class NMSWorld extends BukkitWorld implements World {
 				.a(ResourceKey.a(IRegistry.l, CraftNamespacedKey.toMinecraft(type.getKey())));
 		net.minecraft.world.entity.Entity entity = NMSType.a(delegate.getMinecraftWorld());
 		entity.setPosition(location.getX(), location.getY(), location.getZ());
+		delegate.addEntity(entity);
 		return new NMSEntity(this, entity);
 	}
 
